@@ -1,3 +1,4 @@
+
 // create function to select computer move
 function selectComputerMove(){
 
@@ -30,13 +31,18 @@ function selectPlayerMove(){
 
 			//change the input to upper case and compare to ROCK, PAPER or SCISSORS	
 			playerChoice = playerChoice.toUpperCase();
-		}
+			console.log(playerChoice)
+		
 		//verify choice is a valid choice
+		}
 		if (playerChoice == "ROCK" || playerChoice == "PAPER" || playerChoice == "SCISSORS"){
 			
 			//if yes, change keepGoing to false
 			keepGoing = false;
-		}else{
+		}else if (playerChoice == null){
+			return null
+
+		}else {
 			//if not, alert the choice is not valid, select a new move
 			alert("Invalid choice, select a new move!")
 		}
@@ -115,6 +121,11 @@ function playRound(currentPlayerScore, currentComputerScore){
 	//initiate variable for player move and call function to select player move
 	let playerMove = selectPlayerMove();
 
+	//if player move is null, cancel game
+	if (playerMove == null){
+		return null
+	}
+
 	//call function to declare winner and store in winner variable, pass computer and player moves
 	roundWinner = declareWinner(computerMove, playerMove);
 	
@@ -142,6 +153,9 @@ function play(){
 	//initiate variable for overall winner
 	let overallWinner;
 	
+	//initiate variable for current game
+	let currentGame;
+
 	// initialize a variable for player score and computer score
 	let currentPlayerScore = playerScore();
 	let currentComputerScore = computerScore();
@@ -156,11 +170,14 @@ function play(){
 	//start a while loop that runs while keepGoing is true
 	while (keepGoing == true){
 		//call play round 1 function, console log output of function
-		alert(playRound(currentPlayerScore, currentComputerScore))
-
-		//check player score and computer score
-		//currentPlayerScore = playerScore();
-		//computerScore = computerScore();
+		currentGame = playRound(currentPlayerScore, currentComputerScore)
+		
+		if (currentGame){
+			alert(currentGame)
+		}else{
+			alert(`Thank you for playing! Game ended player ${currentPlayerScore()} - computer ${currentComputerScore()}`)
+			return undefined
+		}
 
 		//if player score or computer score == 1 and round 3 is true, 
 		if ((currentPlayerScore() == 1 || currentComputerScore() == 1) && round3 == true){
@@ -193,6 +210,7 @@ function play(){
 
 	//return overall winner
 	alert(`The winner is the ${overallWinner}! Thank you for playing!`)
+	return undefined
 }
 
 play()
